@@ -1,0 +1,57 @@
+# Docker ignore file for COBOL Banking System
+# This file tells Docker which files to exclude from the build context
+
+# Compiled binaries
+BANKMAIN
+BANKTEST
+DATALOADER
+TRANSPROC
+REPORTGEN
+USERINTERFACE
+
+# Generated files
+*.o
+*.so
+*.a
+
+# Data files (will be created by the application)
+CUSTOMER.DAT
+TRANSACT.DAT
+BANKREPORT.TXT
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git files
+.git/
+.gitignore
+
+# Docker files (don't need to copy these into the image)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentation (optional - uncomment if you don't want docs in image)
+# *.md
+# README*
+# PROJECT_OVERVIEW*
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/

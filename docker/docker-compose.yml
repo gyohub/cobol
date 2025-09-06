@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  cobol-banking:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: cobol-banking-dev
+    volumes:
+      # Mount the parent directory to the container's working directory
+      - ..:/app/cobol-banking
+      # Mount a persistent volume for compiled binaries and data files
+      - cobol-data:/app/cobol-banking/data
+    working_dir: /app/cobol-banking
+    stdin_open: true
+    tty: true
+    environment:
+      - TERM=xterm-256color
+    # Keep container running
+    command: /bin/bash
+    # Optional: expose port for future web interface
+    ports:
+      - "8080:8080"
+
+volumes:
+  cobol-data:
+    driver: local
