@@ -1,0 +1,111 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. DATALOADER.
+       AUTHOR. COBOL Banking System.
+       DATE-WRITTEN. 2024.
+       
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT CUSTOMER-FILE ASSIGN TO 'CUSTOMER.DAT'
+               ORGANIZATION IS INDEXED
+               ACCESS MODE IS RANDOM
+               RECORD KEY IS CUST-ACCOUNT-NUMBER
+               FILE STATUS IS CUSTOMER-FILE-ST.
+       
+       DATA DIVISION.
+       FILE SECTION.
+       FD CUSTOMER-FILE.
+       01 CUSTOMER-RECORD.
+           05 CUST-ACCOUNT-NUMBER    PIC 9(10).
+           05 CUST-NAME             PIC X(30).
+           05 CUST-ADDRESS          PIC X(50).
+           05 CUST-PHONE            PIC X(15).
+           05 CUST-BALANCE          PIC 9(10)V99.
+           05 CUST-ACCOUNT-TYPE     PIC X(1).
+           05 CUST-STATUS           PIC X(1).
+           05 CUST-DATE-OPENED      PIC 9(8).
+           05 FILLER                PIC X(20).
+       
+       WORKING-STORAGE SECTION.
+       01 FILE-STATUS-VARIABLES.
+           05 CUSTOMER-FILE-ST  PIC XX.
+       
+       PROCEDURE DIVISION.
+       MAIN-PROGRAM.
+           PERFORM CREATE-CUSTOMER-FILE
+           PERFORM LOAD-SAMPLE-DATA
+           PERFORM CLOSE-FILES
+           DISPLAY 'Sample data loaded successfully!'
+           STOP RUN.
+       
+       CREATE-CUSTOMER-FILE.
+           OPEN OUTPUT CUSTOMER-FILE
+           IF CUSTOMER-FILE-ST NOT = '00'
+               DISPLAY 'Error creating customer file: ' CUSTOMER-FILE-ST
+               STOP RUN
+           END-IF.
+       
+       LOAD-SAMPLE-DATA.
+           PERFORM LOAD-CUSTOMER-1
+           PERFORM LOAD-CUSTOMER-2
+           PERFORM LOAD-CUSTOMER-3
+           PERFORM LOAD-CUSTOMER-4
+           PERFORM LOAD-CUSTOMER-5.
+       
+       LOAD-CUSTOMER-1.
+           MOVE 0000000001 TO CUST-ACCOUNT-NUMBER
+           MOVE 'JOHN SMITH                     ' TO CUST-NAME
+           MOVE '123 MAIN STREET, ANYTOWN, USA        ' TO CUST-ADDRESS
+           MOVE '555-123-4567     ' TO CUST-PHONE
+           MOVE 00001000.00 TO CUST-BALANCE
+           MOVE 'S' TO CUST-ACCOUNT-TYPE
+           MOVE 'A' TO CUST-STATUS
+           MOVE 20240101 TO CUST-DATE-OPENED
+           WRITE CUSTOMER-RECORD.
+       
+       LOAD-CUSTOMER-2.
+           MOVE 0000000002 TO CUST-ACCOUNT-NUMBER
+           MOVE 'MARY JOHNSON                   ' TO CUST-NAME
+           MOVE '456 OAK AVENUE, SOMEWHERE, USA       ' TO CUST-ADDRESS
+           MOVE '555-234-5678     ' TO CUST-PHONE
+           MOVE 00002500.00 TO CUST-BALANCE
+           MOVE 'C' TO CUST-ACCOUNT-TYPE
+           MOVE 'A' TO CUST-STATUS
+           MOVE 20240102 TO CUST-DATE-OPENED
+           WRITE CUSTOMER-RECORD.
+       
+       LOAD-CUSTOMER-3.
+           MOVE 0000000003 TO CUST-ACCOUNT-NUMBER
+           MOVE 'ROBERT WILLIAMS                ' TO CUST-NAME
+           MOVE '789 PINE STREET, NOWHERE, USA        ' TO CUST-ADDRESS
+           MOVE '555-345-6789     ' TO CUST-PHONE
+           MOVE 00001500.00 TO CUST-BALANCE
+           MOVE 'S' TO CUST-ACCOUNT-TYPE
+           MOVE 'A' TO CUST-STATUS
+           MOVE 20240103 TO CUST-DATE-OPENED
+           WRITE CUSTOMER-RECORD.
+       
+       LOAD-CUSTOMER-4.
+           MOVE 0000000004 TO CUST-ACCOUNT-NUMBER
+           MOVE 'SARAH BROWN                    ' TO CUST-NAME
+           MOVE '321 ELM DRIVE, EVERYWHERE, USA       ' TO CUST-ADDRESS
+           MOVE '555-456-7890     ' TO CUST-PHONE
+           MOVE 00003000.00 TO CUST-BALANCE
+           MOVE 'C' TO CUST-ACCOUNT-TYPE
+           MOVE 'A' TO CUST-STATUS
+           MOVE 20240104 TO CUST-DATE-OPENED
+           WRITE CUSTOMER-RECORD.
+       
+       LOAD-CUSTOMER-5.
+           MOVE 0000000005 TO CUST-ACCOUNT-NUMBER
+           MOVE 'MICHAEL DAVIS                  ' TO CUST-NAME
+           MOVE '654 MAPLE LANE, SOMEPLACE, USA       ' TO CUST-ADDRESS
+           MOVE '555-567-8901     ' TO CUST-PHONE
+           MOVE 00002000.00 TO CUST-BALANCE
+           MOVE 'S' TO CUST-ACCOUNT-TYPE
+           MOVE 'A' TO CUST-STATUS
+           MOVE 20240105 TO CUST-DATE-OPENED
+           WRITE CUSTOMER-RECORD.
+       
+       CLOSE-FILES.
+           CLOSE CUSTOMER-FILE.
